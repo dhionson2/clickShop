@@ -1,7 +1,12 @@
 package com.clickshop.shop.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,23 +28,46 @@ public class Compra implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "user_id") 
 	private User usuario;  // Referência ao usuário que fez a compra
-
+	@JsonIgnore
 	@OneToMany
 	private List<Produto> produtos; // Lista de produtos na compra
     private double valorSemDesconto; // Valor total da compra antes dos descontos
     private double valorDesconto; // Valor total dos descontos aplicados
     private double valorAPagar; // Valor a ser pago após os descontos
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+    private Instant moment;
 
     // Construtor
-    public Compra(User usuario, List<Produto> produtos, double valorSemDesconto, double valorDesconto, double valorAPagar) {
+    public Compra(User usuario, List<Produto> produtos, double valorSemDesconto, double valorDesconto, double valorAPagar, Instant moment) {
         this.usuario = usuario;
         this.produtos = produtos;
         this.valorSemDesconto = valorSemDesconto;
         this.valorDesconto = valorDesconto;
         this.valorAPagar = valorAPagar;
+        this.moment = moment;
+    }
+    public Compra() {
+        // Construtor padrão vazio
     }
 
-    // Getters e Setters
+    @Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Compra other = (Compra) obj;
+		return id == other.id;
+	}
+
+	// Getters e Setters
     public User getUsuario() {
         return usuario;
     }
@@ -86,6 +114,14 @@ public class Compra implements Serializable{
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public Instant getMoment() {
+		return moment;
+	}
+
+	public void setMoment(Instant moment) {
+		this.moment = moment;
 	}
     
 }
