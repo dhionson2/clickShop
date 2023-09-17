@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.clickshop.shop.entities.Compra;
 import com.clickshop.shop.entities.User;
+import com.clickshop.shop.entities.enums.CompraStatus;
 import com.clickshop.shop.repositories.CompraRepository;
 import com.clickshop.shop.repositories.UserRepository;
 
@@ -29,12 +30,12 @@ public class TesteConfig implements CommandLineRunner{
 		User u2 = new User("Anderson Silva", "silva.anderson@gmail.com", "977777777", "senha456");
 		User u3 = new User("John Smith", "john@gmail.com", "966666666", "senha789");
 		
-		Compra c1 = new Compra(u1, new ArrayList<>(), 0.0, 0.0, 0.0, Instant.parse("2023-08-20T20:50:17Z"));
-		Compra c2 = new Compra(u2, new ArrayList<>(), 0.0, 0.0, 0.0, Instant.parse("2023-08-21T13:14:40Z"));
-		Compra c3 = new Compra(u3, new ArrayList<>(), 0.0, 0.0, 0.0, Instant.parse("2023-08-22T17:10:12Z"));
-		Compra c4 = new Compra(u3, new ArrayList<>(), 0.0, 0.0, 0.0, Instant.parse("2023-08-22T17:10:12Z"));
-		Compra c5 = new Compra(u1, new ArrayList<>(), 0.0, 0.0, 0.0, Instant.parse("2023-08-22T17:10:12Z"));
-		Compra c6 = new Compra(u3, new ArrayList<>(), 0.0, 0.0, 0.0, Instant.parse("2023-08-22T17:10:12Z"));
+		Compra c1 = new Compra(u1, new ArrayList<>(), 0.0, 0.0, 0.0, Instant.parse("2023-08-20T20:50:17Z"), CompraStatus.AGUARDANDO_PAGAMENTO);
+		Compra c2 = new Compra(u2, new ArrayList<>(), 0.0, 0.0, 0.0, Instant.parse("2023-08-21T13:14:40Z"), CompraStatus.PAGO);
+		Compra c3 = new Compra(u3, new ArrayList<>(), 0.0, 0.0, 0.0, Instant.parse("2023-08-22T17:10:12Z"), CompraStatus.CANCELADO);
+		Compra c4 = new Compra(u3, new ArrayList<>(), 0.0, 0.0, 0.0, Instant.parse("2023-08-22T17:10:12Z"), CompraStatus.ENTREGUE);
+		Compra c5 = new Compra(u1, new ArrayList<>(), 0.0, 0.0, 0.0, Instant.parse("2023-08-22T17:10:12Z"), CompraStatus.ENVIADO);
+		Compra c6 = new Compra(u3, new ArrayList<>(), 0.0, 0.0, 0.0, Instant.parse("2023-08-22T17:10:12Z"), CompraStatus.PAGO);
 
 
 

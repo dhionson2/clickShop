@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
+import com.clickshop.shop.entities.enums.CompraStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,23 +29,31 @@ public class Compra implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "user_id") 
 	private User usuario;  // Referência ao usuário que fez a compra
+	
 	@JsonIgnore
 	@OneToMany
 	private List<Produto> produtos; // Lista de produtos na compra
+	
     private double valorSemDesconto; // Valor total da compra antes dos descontos
+    
     private double valorDesconto; // Valor total dos descontos aplicados
+    
     private double valorAPagar; // Valor a ser pago após os descontos
+    
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant moment;
+    
+    private Integer compraStatus;
 
     // Construtor
-    public Compra(User usuario, List<Produto> produtos, double valorSemDesconto, double valorDesconto, double valorAPagar, Instant moment) {
+    public Compra(User usuario, List<Produto> produtos, double valorSemDesconto, double valorDesconto, double valorAPagar, Instant moment,CompraStatus compraStatus) {
         this.usuario = usuario;
         this.produtos = produtos;
         this.valorSemDesconto = valorSemDesconto;
         this.valorDesconto = valorDesconto;
         this.valorAPagar = valorAPagar;
         this.moment = moment;
+        setCompraStatus(compraStatus);
     }
     public Compra() {
         // Construtor padrão vazio
@@ -122,6 +131,14 @@ public class Compra implements Serializable{
 
 	public void setMoment(Instant moment) {
 		this.moment = moment;
+	}
+	public CompraStatus getCompraStatus() {
+		return CompraStatus.valueOf(compraStatus);
+	}
+	public void setCompraStatus(CompraStatus compraStatus) {
+		if(compraStatus != null) {
+			this.compraStatus = compraStatus.getCode();
+		}
 	}
     
 }
